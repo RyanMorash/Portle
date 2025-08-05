@@ -13,7 +13,7 @@ var firstGame = true;
 var expiredSession = false;
 const allowExpiration = false; // Wordle doesn't have expiration, but I may want to implement this eventually, who knows
 
-const firstgameMilli = new Date(Date.UTC(2022, 8, 4, 0, 0, 0, 0)).getTime();
+const firstgameMilli = Date.UTC(2022, 8, 4, 0, 0, 0, 0);
 const dayLength = 1000*60*60*24;
 var gameNumber;
 
@@ -485,7 +485,7 @@ function getWordOfTheDay(seed) {
 	if (seed === undefined) {
 		let curDate = new Date();
 		// Use UTC time for consistency
-		let utcDate = new Date(curDate.getUTCFullYear(), curDate.getUTCMonth(), curDate.getUTCDate());
+		let utcDate = new Date(Date.UTC(curDate.getUTCFullYear(), curDate.getUTCMonth(), curDate.getUTCDate()));
 		let func = mulberry32(utcDate.getTime());
 		let num = Math.floor(func() * wordList.length);
 		
