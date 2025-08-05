@@ -13,7 +13,7 @@ var firstGame = true;
 var expiredSession = false;
 const allowExpiration = false; // Wordle doesn't have expiration, but I may want to implement this eventually, who knows
 
-const firstgameMilli = new Date(2022, 8, 4, 0, 0, 0, 0).getTime();
+const firstgameMilli = new Date(Date.UTC(2022, 8, 4, 0, 0, 0, 0)).getTime();
 const dayLength = 1000*60*60*24;
 var gameNumber;
 
@@ -53,10 +53,11 @@ initializeGame();
 
 function getGameNumber() {
 	let curdate = new Date();
-	curdate.setMilliseconds(0);
-	curdate.setSeconds(0);
-	curdate.setMinutes(0);
-	curdate.setHours(0);
+	// Use UTC/GMT time instead of local time
+	curdate.setUTCMilliseconds(0);
+	curdate.setUTCSeconds(0);
+	curdate.setUTCMinutes(0);
+	curdate.setUTCHours(0);
 
 	let curdateMilli = curdate.getTime();
 	let dif = curdateMilli - firstgameMilli;
@@ -70,10 +71,11 @@ function getGameNumber() {
 }
 
 function getAbsoluteDate(date) {
-	date.setMilliseconds(0);
-	date.setSeconds(0);
-	date.setMinutes(0);
-	date.setHours(0);
+	// Use UTC/GMT time instead of local time
+	date.setUTCMilliseconds(0);
+	date.setUTCSeconds(0);
+	date.setUTCMinutes(0);
+	date.setUTCHours(0);
 }
 
 function addZeros(num, digits = 2) {
@@ -178,7 +180,7 @@ function initializeGame() {
 		// The first game will last ~48 hours
 	}
 	
-	gameTimerNext.setDate(gameTimerNext.getDate() + 1);
+	gameTimerNext.setUTCDate(gameTimerNext.getUTCDate() + 1);
 	
 	updateMobileHeight();
 }
@@ -482,7 +484,9 @@ function getWordOfTheDay(seed) {
 	// Practice mode
 	if (seed === undefined) {
 		let curDate = new Date();
-		let func = mulberry32(curDate.getTime());
+		// Use UTC time for consistency
+		let utcDate = new Date(curDate.getUTCFullYear(), curDate.getUTCMonth(), curDate.getUTCDate());
+		let func = mulberry32(utcDate.getTime());
 		let num = Math.floor(func() * wordList.length);
 		
 		return wordList[num];
