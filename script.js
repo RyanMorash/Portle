@@ -485,7 +485,7 @@ function getWordOfTheDay(seed) {
 	if (seed === undefined) {
 		let curDate = new Date();
 		// Use UTC time for consistency
-		let utcDate = new Date(Date.UTC(curDate.getUTCFullYear(), curDate.getUTCMonth(), curDate.getUTCDate()));
+		let utcDate = new Date(curDate.getUTCFullYear(), curDate.getUTCMonth(), curDate.getUTCDate());
 		let func = mulberry32(utcDate.getTime());
 		let num = Math.floor(func() * wordList.length);
 		
